@@ -5,9 +5,10 @@ def get_chart(path:str, rows, cols) -> dict:
     scaley = img.height // rows + 1
     scalex = img.width // cols + 1
 
-    count = 0
     data = {}
+    y_index = 0
     for y in range(0, img.height, scaley):
+        x_index = 0
         for x in range(0, img.width, scalex):
             
             box = []
@@ -19,9 +20,10 @@ def get_chart(path:str, rows, cols) -> dict:
                         pass
             
             avg = sum(box) // len(box)
-            data[count] = avg
-            count += 1
+            data[f"{x_index}x{y_index}"] = avg
+            x_index += 1
         #     print(f"{'*' if avg < 127 else ' '}", end="")
+        y_index += 1
         # print()
     
     return data

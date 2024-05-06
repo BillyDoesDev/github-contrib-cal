@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
-    "name": "Hello Extensions",
-    "description": "Base Level Extension",
+    "name": "GitHub Calendar Art",
+    "description": "Draw tf out on the world's best canvas - GitHub Contribution Calendar.",
     "version": "0.0.1",
     "permissions": [
         "activeTab",
