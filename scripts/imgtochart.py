@@ -1,34 +1,52 @@
 from PIL import Image
+import os
+import math
+import json
 
-def get_chart(path:str, rows, cols) -> dict:
+def get_chart(path:str, rows, cols, inv=True, disp=False) -> dict: # returns a coordinate : luminosity mapping
     img = Image.open(path).convert(mode="L")
-    scaley = img.height // rows + 1
-    scalex = img.width // cols + 1
-
-    data = {}
-    y_index = 0
-    for y in range(0, img.height, scaley):
-        x_index = 0
-        for x in range(0, img.width, scalex):
-            
-            box = []
-            for y_ in range(y, y + scaley):
-                for x_ in range(x, x + scalex):
-                    try:
-                        box.append(img.getpixel((x_, y_)))
-                    except IndexError:
-                        pass
-            
-            avg = sum(box) // len(box)
-            data[f"{x_index}x{y_index}"] = avg
-            x_index += 1
-        #     print(f"{'*' if avg < 127 else ' '}", end="")
-        y_index += 1
-        # print()
+    img = img.resize((rows * img.width // img.height, rows), resample=Image.BICUBIC)
     
+    data = {}
+    for y in range(rows):
+        for x in range(cols):
+            try:
+                data[f"{x}x{y}"] = math.floor(img.getpixel((x, y)) / (256 / 5))
+            except IndexError:
+                data[f"{x}x{y}"] = 4
+            
+            if inv: data[f"{x}x{y}"] = 4 - data[f"{x}x{y}"] % 4 if data[f"{x}x{y}"] != 4 else 0
+
+            if disp: print(" " if data[f"{x}x{y}"] == 4 else data[f"{x}x{y}"], end="")
+        if disp: print()
+
+    return data
+
+
+def get_frames(video_path:str, rows, cols, inv=True, disp=False, cache_reload=False) -> dict:
+
+    if not cache_reload:
+        print("attempting reload from cache...")
+        try:
+            with open(".frames_cache.json", mode="r", encoding="utf-8") as f:
+                data = json.load(f)
+                return data
+        except FileNotFoundError:
+            pass
+
+    print("computing frame info...")
+    data = {}
+    for index, file in enumerate(os.listdir(os.path.join(video_path))):
+        print(f"processing frame {index}...")
+        data[f"frame{index}"] = get_chart(os.path.join(video_path, file), rows, cols, inv, disp)
+    print("Done!")
+
+    # cache this for later...
+    with open(".frames_cache.json", mode="w", encoding="utf-8") as f:
+        f.write(json.dumps(data, indent=4))
     return data
 
 
 if __name__ == "__main__":
-    print(get_chart("assets/text.png", rows=7, cols=52))
-        
+    # get_chart("assets/frames/frame5197.png", rows=7, cols=52, inv=False, disp=True)
+    get_frames("temp", rows=7, cols=52, inv=False, disp=True)

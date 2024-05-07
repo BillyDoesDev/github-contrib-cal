@@ -1,2 +1,6 @@
 env/
 __pycache__/
+temp/
+.frames_cache.json
+*webm
+frames/
