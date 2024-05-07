@@ -17,15 +17,10 @@ fetch(`http://127.0.0.1:5000/raccoon?cal_dim=${no_rows}-${no_cols}`, {
             // console.log(chart_data[frame]);
             for (let y = 0; y < no_rows; y++) {
                 for (let x = 0; x < no_cols; x++) {
-                    // if (chart_data[frame][`${x}x${y}`] < 127) {
-                    //     rows[y].querySelectorAll(".ContributionCalendar-day")[x].setAttribute("data-level", 4);
-                    // } else {
-                    //     rows[y].querySelectorAll(".ContributionCalendar-day")[x].setAttribute("data-level", 0);
-                    // }
                     rows[y].querySelectorAll(".ContributionCalendar-day")[x].setAttribute("data-level", chart_data[frame][`${x}x${y}`]);
                 }
             }
-            await delay(200);
+            await delay(300);
         }
     })
     .catch(err => console.error(err));
@@ -33,8 +28,3 @@ fetch(`http://127.0.0.1:5000/raccoon?cal_dim=${no_rows}-${no_cols}`, {
 function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-
-// ultimately need to do this
-// rows[0].querySelector(".ContributionCalendar-day").setAttribute("data-level", 4)
-
-

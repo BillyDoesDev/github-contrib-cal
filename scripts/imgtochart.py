@@ -3,7 +3,7 @@ import os
 import math
 import json
 
-def get_chart(path:str, rows, cols, inv=True, disp=False) -> dict: # returns a coordinate : luminosity mapping
+def get_chart(path:str, rows, cols, inv, disp=False) -> dict: # returns a coordinate : luminosity mapping
     img = Image.open(path).convert(mode="L")
     img = img.resize((rows * img.width // img.height, rows), resample=Image.BICUBIC)
     
@@ -23,7 +23,7 @@ def get_chart(path:str, rows, cols, inv=True, disp=False) -> dict: # returns a c
     return data
 
 
-def get_frames(video_path:str, rows, cols, inv=True, disp=False, cache_reload=False) -> dict:
+def get_frames(video_path:str, rows, cols, inv, disp=False, cache_reload=False) -> dict:
 
     if not cache_reload:
         print("attempting reload from cache...")
@@ -43,6 +43,7 @@ def get_frames(video_path:str, rows, cols, inv=True, disp=False, cache_reload=Fa
 
     # cache this for later...
     with open(".frames_cache.json", mode="w", encoding="utf-8") as f:
+        print("caching frame info...")
         f.write(json.dumps(data, indent=4))
     return data
 

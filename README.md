@@ -14,13 +14,26 @@ We get the dimensions of the contribution chart using JS, forward that data to a
 ## Setting Up
 > **Disclaimer:** This is only going to work on Chromium based browsers.
 
-- Clone the repo, install the dependencies, and start the server as follows:
+- Clone the repo, and install the dependencies:
 
     ```sh
     git clone https://github.com/BillyDoesDev/github-contrib-cal.git
     cd github-contrib-cal
     pip install -r requirements.txt
-    python server.py /path/to/your/image.ext # an example image is provided in the `assets` directory.
+    ```
+- Start the server.
+    ```sh
+    usage: python server.py [options] directory_path
+
+    positional arguments:
+    directory_path  Path to the directory where your images are
+
+    options:
+    -h, --help      show this help message and exit
+    --inv           Invert images
+    --reload_cache  Disable using cache [generates frames again]
+
+    Version 0.0.1
     ```
 
 - Next, open up your [Chrome extensions page](chrome://extensions/), and enable `Developer mode`, and click on `Load unpacked`.
