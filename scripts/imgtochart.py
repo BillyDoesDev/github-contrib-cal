@@ -6,7 +6,7 @@ import json
 def get_chart(path:str, rows, cols, inv, disp=False) -> dict: # returns a coordinate : luminosity mapping
     img = Image.open(path).convert(mode="L")
     # img = ImageOps.invert(img)
-    img = img.resize((rows * img.width // img.height, rows), resample=Image.NEAREST) # or use Image.NEAREST
+    img = img.resize((rows * img.width // img.height, rows), resample=Image.BICUBIC) # or use Image.NEAREST
     
     data = {}
     for y in range(rows):
