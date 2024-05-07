@@ -1,11 +1,12 @@
-from PIL import Image
+from PIL import Image, ImageOps
 import os
 import math
 import json
 
 def get_chart(path:str, rows, cols, inv, disp=False) -> dict: # returns a coordinate : luminosity mapping
     img = Image.open(path).convert(mode="L")
-    img = img.resize((rows * img.width // img.height, rows), resample=Image.BICUBIC) # or use Image.NEAREST
+    # img = ImageOps.invert(img)
+    img = img.resize((rows * img.width // img.height, rows), resample=Image.NEAREST) # or use Image.NEAREST
     
     data = {}
     for y in range(rows):
@@ -36,9 +37,10 @@ def get_frames(video_path:str, rows, cols, inv, disp=False, cache_reload=False) 
 
     print("computing frame info...")
     data = {}
-    for index, file in enumerate(os.listdir(os.path.join(video_path))):
-        print(f"processing frame {index}...")
-        data[f"frame{index}"] = get_chart(os.path.join(video_path, file), rows, cols, inv, disp)
+    # print(len(os.listdir(os.path.join(video_path))))
+    for index in range(1, len(os.listdir(os.path.join(video_path))) + 1):
+        print(f"processing frame{index}...")
+        data[f"frame{index}"] = get_chart(os.path.join(video_path, f"frame{index}.png"), rows, cols, inv, disp)
     print("Done!")
 
     # cache this for later...
@@ -50,4 +52,4 @@ def get_frames(video_path:str, rows, cols, inv, disp=False, cache_reload=False) 
 
 if __name__ == "__main__":
     # get_chart("assets/frames/frame5197.png", rows=7, cols=52, inv=False, disp=True)
-    get_frames("temp", rows=7, cols=52, inv=False, disp=True)
+    get_frames("assets/frames", rows=7, cols=52, inv=False, disp=True, cache_reload=True)

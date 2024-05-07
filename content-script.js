@@ -13,14 +13,16 @@ fetch(`http://127.0.0.1:5000/raccoon?cal_dim=${no_rows}-${no_cols}`, {
 })
     .then(response => response.json())
     .then(async chart_data => {
+        let frame_no = 1;
         for (const frame in chart_data) {
-            // console.log(chart_data[frame]);
+            console.log(`Processing frame${frame_no}...`);
             for (let y = 0; y < no_rows; y++) {
                 for (let x = 0; x < no_cols; x++) {
-                    rows[y].querySelectorAll(".ContributionCalendar-day")[x].setAttribute("data-level", chart_data[frame][`${x}x${y}`]);
+                    rows[y].querySelectorAll(".ContributionCalendar-day")[x].setAttribute("data-level", chart_data[`frame${frame_no}`][`${x}x${y}`]);
                 }
             }
-            await delay(300);
+            frame_no++;
+            await delay(70);
         }
     })
     .catch(err => console.error(err));

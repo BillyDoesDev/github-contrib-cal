@@ -1,8 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
-import sys
 import argparse
-import os
 from scripts.imgtochart import get_frames
 
 parser = argparse.ArgumentParser(

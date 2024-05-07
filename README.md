@@ -35,6 +35,9 @@ We get the dimensions of the contribution chart using JS, forward that data to a
 
     Version 0.0.1
     ```
+    > **NOTE:** The pictures you put inside the directory **MUST BE NAMED LIKE SO: `frame#.png`,** where the `#` is the **frame number**, starting from `1`. This is done to make sure stuff happens in the right order. Should you fail to do this, there might be unwanted/unexpected results.
+
+</br>
 
 - Next, open up your [Chrome extensions page](chrome://extensions/), and enable `Developer mode`, and click on `Load unpacked`.
 
